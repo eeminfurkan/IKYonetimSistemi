@@ -1,0 +1,50 @@
+﻿@page "/personel-listesi"
+@using IKYonetimSistemi.Shared.Models
+@using IKYonetimSistemi.Shared.Services
+
+@inject PersonelServisi P_Servisi
+
+<PageTitle>Personel Listesi</PageTitle>
+
+<h1>Personel Listesi</h1>
+
+@if (personelListem == null)
+{
+    <p><em>Yükleniyor...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Ad</th>
+                <th>Soyad</th>
+                <th>Departman</th>
+                <th>Pozisyon</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var personel in personelListem)
+            {
+                <tr>
+                    <td>@personel.Ad</td>
+                    <td>@personel.Soyad</td>
+                    <td>@personel.Departman</td>
+                    <td>@personel.Pozisyon</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    // Bu sayfada kullanılacak personel listesini tutan değişken
+    private List<Personel> personelListem;
+
+    // Bu metot, sayfa ilk yüklendiğinde Blazor tarafından otomatik olarak çalıştırılır.
+    protected override void OnInitialized()
+    {
+        // Personel Servisi'ni kullanarak personel listesini çekiyoruz.
+        personelListem = P_Servisi.PersonelleriGetir();
+    }
+}
